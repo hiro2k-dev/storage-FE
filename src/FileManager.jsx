@@ -3,8 +3,8 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const API_URL = "http://62.169.16.171:10040"; // Update with your backend URL
-const CHUNK_SIZE = 1024 * 1024; // 1MB per chunk
+const API_URL = process.env.REACT_APP_API_URL;
+const CHUNK_SIZE = 1024 * 256; // 1MB per chunk
 
 function FileManager() {
   const [files, setFiles] = useState([]);
