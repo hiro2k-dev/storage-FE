@@ -21,44 +21,73 @@
 */
 
 // Chakra imports
-import { Box, SimpleGrid } from "@chakra-ui/react";
-import DevelopmentTable from "views/admin/dataTables/components/DevelopmentTable";
-import CheckTable from "views/admin/dataTables/components/CheckTable";
-import ColumnsTable from "views/admin/dataTables/components/ColumnsTable";
-import ComplexTable from "views/admin/dataTables/components/ComplexTable";
+import { Box, SimpleGrid } from '@chakra-ui/react';
+// import DevelopmentTable from "views/admin/dataTables/components/DevelopmentTable";
+// import CheckTable from "views/admin/dataTables/components/CheckTable";
+import FileTable from 'views/admin/dataTables/components/FileTable';
+// import ColumnsTable from "views/admin/dataTables/components/ColumnsTable";
+// import ComplexTable from "views/admin/dataTables/components/ComplexTable";
 import {
-  columnsDataDevelopment,
-  columnsDataCheck,
-  columnsDataColumns,
-  columnsDataComplex,
-} from "views/admin/dataTables/variables/columnsData";
-import tableDataDevelopment from "views/admin/dataTables/variables/tableDataDevelopment.json";
-import tableDataCheck from "views/admin/dataTables/variables/tableDataCheck.json";
-import tableDataColumns from "views/admin/dataTables/variables/tableDataColumns.json";
-import tableDataComplex from "views/admin/dataTables/variables/tableDataComplex.json";
-import React from "react";
-
+  // columnsDataDevelopment,
+  columnsFileData,
+  // columnsDataColumns,
+  // columnsDataComplex,
+} from 'views/admin/dataTables/variables/columnsData';
+// import tableDataDevelopment from "views/admin/dataTables/variables/tableDataDevelopment.json";
+import tableDataCheck from 'views/admin/dataTables/variables/tableDataCheck.json';
+// import tableDataColumns from "views/admin/dataTables/variables/tableDataColumns.json";
+// import tableDataComplex from "views/admin/dataTables/variables/tableDataComplex.json";
+import React, { useEffect, useState } from 'react';
+import api from 'api/axios';
+import { useQuery } from 'react-query';
 export default function Settings() {
+  const [files, setFiles] = useState([]);
+  const fileQuery = useQuery(
+    ['query-files'],
+    () => {
+      return new Promise(async (resolve) => {
+        api
+          .get('/files')
+          .then((res) =>
+            setFiles([
+              ...res.data.folders.map((e) => ({ ...e, isFolder: true })),
+              ...res.data.files,
+            ]),
+          )
+          .catch((err) => console.error('❌ Failed to fetch files:', err));
+        resolve();
+      });
+    },
+    { refetchOnWindowFocus: false },
+  );
   // Chakra Color Mode
   return (
-    <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
+    <Box pt={{ base: '130px', md: '80px', xl: '80px' }}>
       <SimpleGrid
-        mb='20px'
-        columns={{ sm: 1, md: 2 }}
-        spacing={{ base: "20px", xl: "20px" }}>
-        <DevelopmentTable
+        mb="20px"
+        columns={{ sm: 1 }}
+        spacing={{ base: '20px', xl: '20px' }}
+      >
+        {/* <DevelopmentTable
           columnsData={columnsDataDevelopment}
           tableData={tableDataDevelopment}
+        /> */}
+        <FileTable
+          dataQuery={fileQuery}
+          columnsData={columnsFileData}
+          tableData={files.map((e) => ({
+            ...e,
+            name: [e.filename || e?.name, false],
+          }))}
         />
-        <CheckTable columnsData={columnsDataCheck} tableData={tableDataCheck} />
-        <ColumnsTable
+        {/* <ColumnsTable
           columnsData={columnsDataColumns}
           tableData={tableDataColumns}
         />
         <ComplexTable
           columnsData={columnsDataComplex}
           tableData={tableDataComplex}
-        />
+        /> */}
       </SimpleGrid>
     </Box>
   );

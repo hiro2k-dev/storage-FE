@@ -5,13 +5,17 @@ import './assets/css/App.css';
 
 import App from './App';
 import { AuthProvider } from 'contexts/AuthContext';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+const queryClient = new QueryClient();
 
 root.render(
   <BrowserRouter>
-    <AuthProvider>
-      <App />
-    </AuthProvider>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <App />
+      </AuthProvider>
+    </QueryClientProvider>
   </BrowserRouter>,
 );

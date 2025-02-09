@@ -28,6 +28,8 @@ import { FaEthereum } from 'react-icons/fa';
 import routes from 'routes';
 import { useAuth } from 'contexts/AuthContext';
 export default function HeaderLinks(props) {
+  const { user } = useAuth();
+
   const { secondary } = props;
   const { colorMode, toggleColorMode } = useColorMode();
   // Chakra Color Mode
@@ -56,7 +58,7 @@ export default function HeaderLinks(props) {
       borderRadius="30px"
       boxShadow={shadow}
     >
-      <SearchBar
+      {/* <SearchBar
         mb={() => {
           if (secondary) {
             return { base: '10px', md: 'unset' };
@@ -99,9 +101,9 @@ export default function HeaderLinks(props) {
             ETH
           </Text>
         </Text>
-      </Flex>
+      </Flex> */}
       <SidebarResponsive routes={routes} />
-      <Menu>
+      {/* <Menu>
         <MenuButton p="0px">
           <Icon
             mt="6px"
@@ -158,69 +160,7 @@ export default function HeaderLinks(props) {
             </MenuItem>
           </Flex>
         </MenuList>
-      </Menu>
-
-      <Menu>
-        <MenuButton p="0px">
-          <Icon
-            mt="6px"
-            as={MdInfoOutline}
-            color={navbarIcon}
-            w="18px"
-            h="18px"
-            me="10px"
-          />
-        </MenuButton>
-        <MenuList
-          boxShadow={shadow}
-          p="20px"
-          me={{ base: '30px', md: 'unset' }}
-          borderRadius="20px"
-          bg={menuBg}
-          border="none"
-          mt="22px"
-          minW={{ base: 'unset' }}
-          maxW={{ base: '360px', md: 'unset' }}
-        >
-          <Image src={navImage} borderRadius="16px" mb="28px" />
-          <Flex flexDirection="column">
-            <Link w="100%" href="https://horizon-ui.com/pro">
-              <Button w="100%" h="44px" mb="10px" variant="brand">
-                Buy Horizon UI PRO
-              </Button>
-            </Link>
-            <Link
-              w="100%"
-              href="https://horizon-ui.com/documentation/docs/introduction"
-            >
-              <Button
-                w="100%"
-                h="44px"
-                mb="10px"
-                border="1px solid"
-                bg="transparent"
-                borderColor={borderButton}
-              >
-                See Documentation
-              </Button>
-            </Link>
-            <Link
-              w="100%"
-              href="https://github.com/horizon-ui/horizon-ui-chakra-ts"
-            >
-              <Button
-                w="100%"
-                h="44px"
-                variant="no-hover"
-                color={textColor}
-                bg="transparent"
-              >
-                Try Horizon Free
-              </Button>
-            </Link>
-          </Flex>
-        </MenuList>
-      </Menu>
+      </Menu> */}
 
       <Button
         variant="no-hover"
@@ -241,8 +181,9 @@ export default function HeaderLinks(props) {
         />
       </Button>
       <Menu>
-        <MenuButton p="0px">
+        <MenuButton borderWidth="4px" borderRadius="100px" p="0px">
           <Avatar
+            src={user?.avatar}
             _hover={{ cursor: 'pointer' }}
             color="white"
             name="Adela Parkson"
@@ -272,7 +213,7 @@ export default function HeaderLinks(props) {
               fontWeight="700"
               color={textColor}
             >
-              👋&nbsp; Hey, Adela
+              {user?.name || '--'}
             </Text>
           </Flex>
           <Flex flexDirection="column" p="10px">

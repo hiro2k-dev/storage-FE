@@ -36,6 +36,25 @@ export const columnsDataCheck = [
   },
 ];
 
+export const columnsFileData = [
+  {
+    Header: "NAME",
+    accessor: "filename",
+  },
+  // {
+  //   Header: "OWNER",
+  //   accessor: "owner",
+  // },
+  // {
+  //   Header: "SIZE",
+  //   accessor: "size",
+  // },
+  // {
+  //   Header: "ACTION",
+  //   accessor: "action",
+  // },
+];
+
 export const columnsDataColumns = [
   {
     Header: "NAME",
